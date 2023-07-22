@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 int main(const int argc, const char* const argv[]) {
@@ -14,9 +15,12 @@ int main(const int argc, const char* const argv[]) {
         cin >> muck;
         cin >> end2;
 
-        if (first1 <= first2 && end1 >= end2) {
-            count += 1;
-        } else if (first2 <= first1 && end2 >= end1) {
+        if (first1 > first2) {
+            swap(first1, first2);
+            swap(end1, end2);
+        }
+
+        if (first2 <= end1) {
             count += 1;
         }
     }
