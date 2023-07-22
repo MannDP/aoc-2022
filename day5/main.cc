@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <list>
+#include <stack>
 using namespace std;
 
 int main(const int argc, const char* const argv[]) {
@@ -35,11 +36,18 @@ int main(const int argc, const char* const argv[]) {
         iss >> muck >> amount >> muck >> from >> muck >> to;
         from -= 1;
         to -= 1;
+        stack<char> moved;
         while (amount > 0) {
             char c = state[from].back();
             state[from].pop_back();
-            state[to].push_back(c);
+            moved.emplace(c);
             amount--;
+        }
+
+        while (!moved.empty()) {
+            char c = moved.top();
+            moved.pop();
+            state[to].push_back(c);
         }
     }
 
