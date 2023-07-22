@@ -6,10 +6,9 @@
 using namespace std;
 
 int main(const int argc, const char* const argv[]) {
-    // process initial state
     string line;
     getline(cin, line);
-
+    
     const int numStacks = line.size() / 3;
     list<char> state[numStacks];
     for (size_t i = 0; i < numStacks; i++) {
@@ -18,7 +17,6 @@ int main(const int argc, const char* const argv[]) {
 
     do {
         if (isdigit(line.at(1))) break;
-
         for (int stack = 0; stack < numStacks; stack++) {
             char letter = line[stack * 3 + stack + 1];
             if (letter != ' ') {
