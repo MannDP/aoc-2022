@@ -8,12 +8,7 @@ int main(const int argc, const char* const argv[]) {
     int first1, end1, first2, end2;
     char muck;
     while(cin >> first1) {
-        cin >> muck;
-        cin >> end1;
-        cin >> muck;
-        cin >> first2;
-        cin >> muck;
-        cin >> end2;
+        cin >> muck >> end1 >> muck >> first2 >> muck >> end2;
 
         if (first1 > first2) {
             swap(first1, first2);
