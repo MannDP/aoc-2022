@@ -11,9 +11,6 @@ int main(const int argc, const char* const argv[]) {
     
     const int numStacks = line.size() / 3;
     list<char> state[numStacks];
-    for (size_t i = 0; i < numStacks; i++) {
-        state[i] = list<char>{};
-    }
 
     do {
         if (isdigit(line.at(1))) break;
