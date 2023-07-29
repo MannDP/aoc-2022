@@ -10,6 +10,7 @@ struct File {
     ~File();
 
     int calcSize(int& aggr);
+    int findClosest(int minSize);
 };
 
 File::~File() {
@@ -26,6 +27,16 @@ int File::calcSize(int& aggr) {
         if (size <= 100000) aggr += size;
     }
     return size; 
+}
+
+int File::findClosest(int minSize) {
+    if (!isDir) return INT_MAX;
+
+    int res = size >= minSize ? size : INT_MAX;
+    for (const auto& [_, file] : files) {
+        res = min(file->findClosest(minSize), res);
+    }
+    return res;
 }
 
 int main() {
@@ -65,7 +76,12 @@ int main() {
 
     int aggr = 0;
     root->calcSize(aggr);
-    cout << aggr << endl;    
+    
+    int freeSpace = 70000000 - root->size;
+    int required = 30000000 - freeSpace;
+    cout << freeSpace << " : " << required << endl;
+
+    cout << root->findClosest(required) << endl;
 
     delete root;
 }
