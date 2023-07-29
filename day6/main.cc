@@ -2,21 +2,30 @@
 #include <unordered_set>
 using namespace std;
 
-int main() {
-    const int lenPrefix = 14;
-    unordered_set<char> characters;
-    string input;
-    getline(cin, input);
-    
-    for (size_t i = 0; i <= input.size() - lenPrefix; i++) {
-        for (size_t j = 0; j < lenPrefix; j++) {
-            characters.insert(input[i + j]);
+int solve(const string& input, const int distinct) {
+    unordered_map<char, int> seen;
+    for (size_t i = 0; i <= input.size() - distinct; i++) {
+        char c = input[i];
+        seen[c] += 1;
+        if (i > distinct - 1) {
+            c = input[i - distinct];
+            if (--seen[c] == 0) {
+                seen.erase(c);
+            }
         }
 
-        if (characters.size() == lenPrefix) {
-            cout << i + lenPrefix << endl;
-            break;
+        if (seen.size() == distinct) {
+            return i + 1;
         }
-        characters.clear();
     }
+
+    return input.size() - distinct + 1;
+}
+
+int main() {
+    string input;
+
+    getline(cin, input);
+    cout << solve(input, 4) << endl;
+    cout << solve(input, 14) << endl;
 }
