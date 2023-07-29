@@ -24,9 +24,9 @@ void efficient(const vector<vector<int>>& trees) {
             if (tree > horiz[i] || tree > vert[j]) {
                 if (visible.find({i, j}) == visible.end()) {
                     visible.insert({i, j});
-                    horiz[i] = max(horiz[i], tree);
-                    vert[j] = max(vert[j], tree);
                 }
+                horiz[i] = max(horiz[i], tree);
+                vert[j] = max(vert[j], tree);
             }
         }
     }
@@ -45,14 +45,13 @@ void efficient(const vector<vector<int>>& trees) {
             if (tree > horiz[i] || tree > vert[j]) {
                 if (visible.find({i, j}) == visible.end()) {
                     visible.insert({i, j});
-                    horiz[i] = max(horiz[i], tree);
-                    vert[j] = max(vert[j], tree);
                 }
+                horiz[i] = max(horiz[i], tree);
+                vert[j] = max(vert[j], tree);
             }
         }
     }
 
-    cout << rows << " " << cols << " " << visible.size() << endl;
     cout << visible.size() + (2 * rows) + (2 * cols) - 4 << endl;
 }
 
@@ -106,7 +105,6 @@ void brute(const vector<vector<int>>& trees) {
         }
     }
 
-    cout << count << endl;
     cout << count + rows * 2 + cols * 2 - 4 << endl;
 }
 
@@ -125,6 +123,6 @@ int main() {
         trees.push_back(tree);
     }
 
-    // efficient(trees);
+    efficient(trees);
     brute(trees);
 }
