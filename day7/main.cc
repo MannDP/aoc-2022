@@ -22,7 +22,7 @@ File::~File() {
 int File::calcSize(int& aggr) {
     if (isDir) {
         for (const auto& [_, file] : files) {
-        size += file->calcSize(aggr);
+            size += file->calcSize(aggr);
         }
         if (size <= 100000) aggr += size;
     }
