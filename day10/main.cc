@@ -1,28 +1,53 @@
 #include "../competitive.hpp"
 
+const size_t WIDTH = 40;
+const size_t HEIGHT = 6;
+
+
+void track(const int cycle, const int X, unordered_set<int>& aggr) {
+    int pos = (cycle - 1) % WIDTH;
+    int absDiff = abs(X - pos);
+    if (absDiff <= 1) aggr.insert(cycle);
+}
+
 // there is no pipelining
 int main(const int argc, const char* const argv[]) {
-    int V;
+    // state
+    int cycle = 1; // the currently executing cycle
     int X = 1;
-    int cycle = 1; // which cycle is running?
-    unordered_set<int> sampleTimes{20, 60, 100, 140, 180, 220};
-    int signal = 0;
+    unordered_set<int> litCycles;
 
     string cmd;
-    while (cin >> cmd) {
+    int V;
+    // process (there is more than enough input)
+    while (cycle <= WIDTH * HEIGHT) {
+        cin >> cmd;
         if (cmd == "noop") {
-            if (sampleTimes.contains(cycle)) {
-                signal += X * cycle;
-            }
+            // do nothing this cycle, but handle the case where the sprite is already there
+            track(cycle, X, litCycles);
             cycle += 1;
         } else {
-            if (sampleTimes.contains(cycle)) signal += X * cycle;
-            else if (sampleTimes.contains(cycle + 1)) signal += X * (cycle + 1);
+            // this will update the sprite's position, but only after the END of the next cycle
+            track(cycle, X, litCycles);
+            cycle += 1;
+            track(cycle, X, litCycles);
             cin >> V;
             X += V;
-            cycle += 2;
+            // cout << "At end of cycle: " << cycle << ", X is now: " << X << endl;
+            cycle += 1;
         }
     }
 
-    cout << signal << endl;
+    cout << "=== DEBUG ===" << endl;
+    for (const auto& d : litCycles) cout << d << " ";
+    cout << endl;
+
+    for (int i = 0; i < HEIGHT; i++) {
+        for (int j = 0; j < WIDTH; j++) {
+            const size_t cycleNum = i * WIDTH + j + 1;
+            if (litCycles.contains(cycleNum)) cout << "#";
+            else cout << ".";
+        }
+        cout << endl;
+    }
 }
