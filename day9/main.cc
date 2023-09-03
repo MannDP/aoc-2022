@@ -11,7 +11,7 @@ struct PairHash {
 };
 
 // helpers
-void moveTail(const pair<int, int>& head, pair<int, int>& tail, unordered_set<pair<int, int>, PairHash>& visited) {
+void moveTail(const pair<int, int>& head, pair<int, int>& tail, bool mark, unordered_set<pair<int, int>, PairHash>& visited) {
     int dx = head.first - tail.first;
     int dy = head.second - tail.second;
     bool isTouch = (abs(dx) + abs(dy) <= 1) || (abs(dx) == 1 && abs(dy) == 1);
@@ -23,15 +23,16 @@ void moveTail(const pair<int, int>& head, pair<int, int>& tail, unordered_set<pa
         (dx > 0) ? tail.first += 1 : tail.first -= 1;
         (dy > 0) ? tail.second += 1 : tail.second -= 1;
     }
-    visited.insert(tail);
+
+    if (mark) visited.insert(tail);
 }
 
 // rope following algorithm
 int main(const int argc, const char* const argv[]) {
-    pair<int, int> head = {0, 0};
-    pair<int, int> tail = {0, 0};
+    const int ROPES = 10;
+    pair<int, int> nodes[ROPES];
     unordered_set<pair<int, int>, PairHash> visited;
-    visited.insert(tail);
+    visited.insert(nodes[ROPES - 1]);
     
     string cmd;
     char direction;
@@ -49,10 +50,12 @@ int main(const int argc, const char* const argv[]) {
         
         for (int i = 0; i < delta; i++) {
             // move head
-            head.first += deltas.first;
-            head.second += deltas.second;
-
-            moveTail(head, tail, visited);
+            nodes[0].first += deltas.first;
+            nodes[0].second += deltas.second;
+            // have each tail follow its head
+            for (int j = 1; j < ROPES; j++) {
+                moveTail(nodes[j-1], nodes[j], j == 9, visited);
+            }
         }
     }
     cout << visited.size() << endl;
