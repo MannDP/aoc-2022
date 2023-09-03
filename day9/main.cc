@@ -48,7 +48,7 @@ int main(const int argc, const char* const argv[]) {
             nodes[0] += deltas;
             // have each tail follow its head
             for (int j = 1; j < ROPES; j++) {
-                moveTail(nodes[j-1], nodes[j], j == 9, visited);
+                moveTail(nodes[j-1], nodes[j], j == delta - 1, visited);
             }
         }
     }
