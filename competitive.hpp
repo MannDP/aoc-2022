@@ -23,6 +23,7 @@
 #include <assert.h>
 #include <unordered_set>
 #include <unordered_map>
+#include <deque>
 
 using namespace std;
 
