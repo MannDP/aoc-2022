@@ -25,3 +25,12 @@
 #include <unordered_map>
 
 using namespace std;
+
+struct PairHash {
+    template<class T1, class T2>
+    size_t operator () (pair<T1, T2> const& p) const {
+        size_t h1 = hash<T1>()(p.first);
+        size_t h2 = hash<T2>()(p.second);
+        return h1 ^ h2;
+    }
+};
