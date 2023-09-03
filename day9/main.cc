@@ -1,7 +1,15 @@
 #include "../competitive.hpp"
 
+typedef pair<int, int> location;
+
+location& operator+=(location&a, const location& b) {
+    a.first += b.first;
+    a.second += b.second;
+    return a;
+}
+
 // helpers
-void moveTail(const pair<int, int>& head, pair<int, int>& tail, bool mark, unordered_set<pair<int, int>, PairHash>& visited) {
+void moveTail(const location& head, location& tail, bool mark, unordered_set<location, PairHash>& visited) {
     int dx = head.first - tail.first;
     int dy = head.second - tail.second;
     bool isTouch = (abs(dx) + abs(dy) <= 1) || (abs(dx) == 1 && abs(dy) == 1);
@@ -20,8 +28,8 @@ void moveTail(const pair<int, int>& head, pair<int, int>& tail, bool mark, unord
 // rope following algorithm
 int main(const int argc, const char* const argv[]) {
     const int ROPES = 10;
-    pair<int, int> nodes[ROPES];
-    unordered_set<pair<int, int>, PairHash> visited;
+    location nodes[ROPES];
+    unordered_set<location, PairHash> visited;
     visited.insert(nodes[ROPES - 1]);
     
     string cmd;
@@ -31,7 +39,7 @@ int main(const int argc, const char* const argv[]) {
         istringstream iss{cmd};
         iss >> direction;
         iss >> delta;
-        pair<int, int> deltas{0, 0};
+        location deltas{0, 0};
 
         if (direction == 'U') deltas.second = 1;
         else if (direction == 'D') deltas.second = -1;
@@ -40,8 +48,7 @@ int main(const int argc, const char* const argv[]) {
         
         for (int i = 0; i < delta; i++) {
             // move head
-            nodes[0].first += deltas.first;
-            nodes[0].second += deltas.second;
+            nodes[0] += deltas;
             // have each tail follow its head
             for (int j = 1; j < ROPES; j++) {
                 moveTail(nodes[j-1], nodes[j], j == 9, visited);
