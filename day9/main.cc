@@ -32,13 +32,10 @@ int main(const int argc, const char* const argv[]) {
     unordered_set<location, PairHash> visited;
     visited.insert(nodes[ROPES - 1]);
     
-    string cmd;
     char direction;
     int delta;
-    while(getline(cin, cmd)) {
-        istringstream iss{cmd};
-        iss >> direction;
-        iss >> delta;
+    while(cin >> direction) {
+        cin >> delta;
         location deltas{0, 0};
 
         if (direction == 'U') deltas.second = 1;
