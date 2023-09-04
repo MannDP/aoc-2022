@@ -1,5 +1,6 @@
 from collections import deque
 from tqdm import tqdm
+from functools import reduce
 from enum import Enum
 from math import floor
 
@@ -81,9 +82,7 @@ def main():
             break
 
     # a % m === (a % km) % m
-    lcm = 1
-    for monkey in monkeys:
-        lcm *= monkey.test_operand
+    lcm = reduce(lambda aggr, m2: aggr * m2.test_operand, monkeys, 1)
 
     for _ in tqdm(range(10000)):
         for monkey in monkeys:
