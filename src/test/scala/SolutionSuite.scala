@@ -6,12 +6,16 @@ import scala.io.Source
 import scala.util.Using
 
 class SolutionSuite extends AnyFunSuite {
-  def fileToSeq(path: String): Seq[String] = {
+  def fileToSeq(
+      path: String,
+      emptyTrailingLine: Boolean = false
+  ): Seq[String] = {
     var lines: IndexedSeq[String] = IndexedSeq.empty
     Using(Source.fromFile(path)) { source =>
       lines = source.getLines().toIndexedSeq
     }
     assert(lines.nonEmpty, s"Test failed to read input file, ${path}")
+    if (emptyTrailingLine) lines = lines ++ Seq("")
     lines
   }
 
@@ -19,10 +23,33 @@ class SolutionSuite extends AnyFunSuite {
     s"src/main/resources/inputs/${name}"
   }
 
-  test("Day 1 sample case") {
-    D1(fileToSeq(getFilePath("d1s1.txt"))) match {
-      case ScalarResult(value) => assert(value == 24_000)
-      case _                   => assert(false)
+  test("Day 1, Puzzle 1") {
+    for (
+      (inputFile, expected) <- Seq("d1s1.txt", "day1.txt") zip Seq(
+        24_000,
+        70509
+      )
+    ) {
+      assert(
+        D1.solve1(fileToSeq(getFilePath(inputFile), true)) == ScalarResult(
+          expected
+        )
+      )
+    }
+  }
+
+  test("Day 1, Puzzle 2") {
+    for (
+      (inputFile, expected) <- Seq("d1s1.txt", "day1.txt") zip Seq(
+        45_000,
+        208_567
+      )
+    ) {
+      assert(
+        D1.solve2(fileToSeq(getFilePath(inputFile), true)) == ScalarResult(
+          expected
+        )
+      )
     }
   }
 }
