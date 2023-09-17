@@ -1,8 +1,11 @@
-.vscode/
+.idea/
 .metals/
-.scala-build/
-*.out
+project/
+target/
 
 # python
 env
 venv
+
+# creds
+cookie.sh
