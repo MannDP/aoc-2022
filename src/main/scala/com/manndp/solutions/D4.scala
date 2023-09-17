@@ -1,11 +1,6 @@
 package com.manndp.solutions
 
 object D4 extends Solution {
-  private def parseInterval(in: String): (Int, Int) = {
-    val parts = in.split("-")
-    (parts(0).toInt, parts(1).toInt)
-  }
-
   override def solve1(input: Seq[String]): Result = {
     ScalarResult(input.count { line =>
       val parts = line.split(",")
@@ -30,5 +25,10 @@ object D4 extends Solution {
       }
       e1 >= s2
     })
+  }
+
+  private def parseInterval(in: String): (Int, Int) = {
+    val parts = in.split("-")
+    (parts(0).toInt, parts(1).toInt)
   }
 }

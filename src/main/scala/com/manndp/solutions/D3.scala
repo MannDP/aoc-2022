@@ -1,16 +1,6 @@
 package com.manndp.solutions
 
 object D3 extends Solution {
-  private def getScore(c: Char): Int = {
-    1 + (
-      if (c.isUpper) {
-        (c.toInt - 'A'.toInt) + 26
-      } else {
-        c.toInt - 'a'.toInt
-      }
-    )
-  }
-
   override def solve1(input: Seq[String]): Result = {
     ScalarResult(input.foldLeft(0)((acc, line) => {
       val (firstHalf, secondHalf) = line.splitAt(line.length / 2)
@@ -32,6 +22,16 @@ object D3 extends Solution {
             .head
           acc + getScore(badge)
         })
+    )
+  }
+
+  private def getScore(c: Char): Int = {
+    1 + (
+      if (c.isUpper) {
+        (c.toInt - 'A'.toInt) + 26
+      } else {
+        c.toInt - 'a'.toInt
+      }
     )
   }
 }
