@@ -1,4 +1,4 @@
-import com.manndp.solutions.{D1, D2, D3, MultiResult, ScalarResult}
+import com.manndp.solutions.*
 import org.scalatest.funsuite.AnyFunSuite
 
 import java.nio.file.Paths
@@ -72,7 +72,7 @@ class SolutionSuite extends AnyFunSuite {
     for (
       (inputFile, expected) <- Seq("d2s1.txt", "day2.txt") zip Seq(
         12,
-        13886,
+        13886
       )
     ) {
       assert(
@@ -87,7 +87,7 @@ class SolutionSuite extends AnyFunSuite {
     for (
       (inputFile, expected) <- Seq("d3s1.txt", "day3.txt") zip Seq(
         157,
-        7826,
+        7826
       )
     ) {
       assert(
@@ -102,7 +102,7 @@ class SolutionSuite extends AnyFunSuite {
     for (
       (inputFile, expected) <- Seq("d3s1.txt", "day3.txt") zip Seq(
         70,
-        2577,
+        2577
       )
     ) {
       assert(
@@ -112,4 +112,32 @@ class SolutionSuite extends AnyFunSuite {
       )
     }
   }
+
+  test("Day 4, Puzzle 1") {
+    for (
+      (inputFile, expected) <- Seq("d4s1.txt", "day4.txt") zip Seq(
+        2,
+        547
+      )
+    ) {
+      assert(
+        D4.solve1(fileToSeq(getFilePath(inputFile))) == ScalarResult(
+          expected
+        )
+      )
+    }
+  }
+
+//  test("Day 4, Puzzle 2") {
+//
+//  }
+
+  //  test("Day 5, Puzzle 1") {
+  //
+  //  }
+
+  //  test("Day 5, Puzzle 2") {
+  //
+  //  }
+
 }
