@@ -128,9 +128,20 @@ class SolutionSuite extends AnyFunSuite {
     }
   }
 
-//  test("Day 4, Puzzle 2") {
-//
-//  }
+  test("Day 4, Puzzle 2") {
+    for (
+      (inputFile, expected) <- Seq("d4s1.txt", "day4.txt") zip Seq(
+        4,
+        843
+      )
+    ) {
+      assert(
+        D4.solve2(fileToSeq(getFilePath(inputFile))) == ScalarResult(
+          expected
+        )
+      )
+    }
+  }
 
   //  test("Day 5, Puzzle 1") {
   //
