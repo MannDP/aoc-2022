@@ -2,7 +2,6 @@
 
 source cookie.sh
 
-echo $#
 if [[ $# -eq 0 ]]; then
   echo "Usage: $0 <day>"
 fi

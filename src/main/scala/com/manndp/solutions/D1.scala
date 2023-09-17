@@ -15,8 +15,6 @@ object D1 extends Solution {
     ScalarResult(res)
   }
 
-  private def swap(data: (Int, Int)): (Int, Int) = data.swap
-
   override def solve2(input: Seq[String]): Result = {
     var top3: Seq[Int] = Seq(0, 0, 0)
     var aggr = 0
@@ -29,7 +27,8 @@ object D1 extends Solution {
         aggr += line.toInt
       }
     }
-
     ScalarResult(top3.sum)
   }
+
+  private def swap(data: (Int, Int)): (Int, Int) = data.swap
 }
