@@ -1,7 +1,17 @@
 package com.manndp.solutions
+import java.lang.Math
 
-class D1 extends Solution {
+object D1 extends Solution {
   override def solve(input: Seq[String]): Result = {
-    throw new RuntimeException("invoking the solve method")
+    var res, aggr = 0
+    for (line <- input) {
+      if (line.isEmpty) {
+        res = Math.max(res, aggr)
+        aggr = 0
+      } else {
+        aggr += line.toInt
+      }
+    }
+    ScalarResult(res)
   }
 }

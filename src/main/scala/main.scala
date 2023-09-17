@@ -10,7 +10,7 @@ import com.manndp.solutions.D1
 @main
 def main(): Unit = {
   val inputFilePath = {
-    val inputFileName = "d1s1.txt"
+    val inputFileName = "day1.txt"
     s"src/main/resources/inputs/${inputFileName}"
   }
 
@@ -24,5 +24,5 @@ def main(): Unit = {
     System.exit(1)
   }
 
-   D1().solve(lines)
+   D1(lines).print()
 }
