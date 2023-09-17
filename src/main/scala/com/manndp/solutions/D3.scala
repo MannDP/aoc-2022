@@ -25,11 +25,12 @@ object D3 extends Solution {
       input
         .grouped(3)
         .foldLeft(0)((acc, group) => {
-          var seen = group.head.toSet
-          group.tail.foreach(line => {
-            seen = seen.intersect(line.toSet)
-          })
-          acc + getScore(seen.head)
+          val badge = group.tail
+            .foldLeft(group.head.toSet)((acc2, line) => {
+              acc2.intersect(line.toSet)
+            })
+            .head
+          acc + getScore(badge)
         })
     )
   }
