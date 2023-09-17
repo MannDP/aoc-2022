@@ -158,8 +158,18 @@ class SolutionSuite extends AnyFunSuite {
     }
   }
 
-  //  test("Day 5, Puzzle 2") {
-  //
-  //  }
-
+  test("Day 5, Puzzle 2") {
+    for (
+      (inputFile, expected) <- Seq("d5s1.txt", "day5.txt") zip Seq(
+        "MCD",
+        "LLWJRBHVZ"
+      )
+    ) {
+      assert(
+        D5.solve2(fileToSeq(getFilePath(inputFile))) == ScalarResult(
+          expected
+        )
+      )
+    }
+  }
 }

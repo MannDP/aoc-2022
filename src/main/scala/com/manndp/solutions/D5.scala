@@ -3,7 +3,7 @@ import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer, Queue}
 
 object D5 extends Solution {
-  override def solve1(input: Seq[String]): Result = {
+  private def getInitialState(input: Seq[String]): (Seq[String], Array[mutable.Queue[Char]]) = {
     val emptyLineIdx = input.indexOf("")
     val (inputConfig, inputMoves) = input.splitAt(emptyLineIdx)
 
@@ -28,11 +28,17 @@ object D5 extends Solution {
           }
         }
       })
+    (inputMoves, state)
+  }
+
+  private val movePattern = "move (\\d+) from (\\d+) to (\\d+)".r
+
+  override def solve1(input: Seq[String]): Result = {
+    val (inputMoves, state) = getInitialState(input)
 
     // Process the stacks
-    val pattern = "move (\\d+) from (\\d+) to (\\d+)".r
     inputMoves.tail.foreach {
-      case pattern(countStr, fromStackStr, toStackStr) => {
+      case movePattern(countStr, fromStackStr, toStackStr) => {
         val count = countStr.toInt
         val fromStack = fromStackStr.toInt - 1
         val toStack = toStackStr.toInt - 1
@@ -51,5 +57,33 @@ object D5 extends Solution {
     ScalarResult(topLine.mkString)
   }
 
-  override def solve2(input: Seq[String]): Result = ???
+  override def solve2(input: Seq[String]): Result = {
+    val (inputMoves, state) = getInitialState(input)
+
+    // Process the stacks
+    inputMoves.tail.foreach {
+      case movePattern(countStr, fromStackStr, toStackStr) => {
+        val count = countStr.toInt
+        val fromStack = fromStackStr.toInt - 1
+        val toStack = toStackStr.toInt - 1
+
+        val stack = mutable.Stack[Char]()
+        for (_ <- Range(0, count)) {
+          stack.push(state(fromStack).dequeue())
+        }
+
+        for (_ <- Range(0, count)) {
+          state(toStack).prepend(stack.pop())
+        }
+      }
+      case _ => assert(false)
+    }
+
+    val topLine = state
+      .map(stack => {
+        stack.head
+      })
+
+    ScalarResult(topLine.mkString)
+  }
 }
