@@ -27,7 +27,6 @@ object D1 extends Solution {
         aggr += line.toInt
       }
     }
-
     ScalarResult(top3.sum)
   }
 
