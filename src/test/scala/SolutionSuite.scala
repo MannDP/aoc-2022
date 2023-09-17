@@ -14,13 +14,13 @@ class SolutionSuite extends AnyFunSuite {
     Using(Source.fromFile(path)) { source =>
       lines = source.getLines().toIndexedSeq
     }
-    assert(lines.nonEmpty, s"Test failed to read input file, ${path}")
+    assert(lines.nonEmpty, s"Test failed to read input file, $path")
     if (emptyTrailingLine) lines = lines ++ Seq("")
     lines
   }
 
   def getFilePath(name: String): String = {
-    s"src/main/resources/inputs/${name}"
+    s"src/main/resources/inputs/$name"
   }
 
   test("Day 1, Puzzle 1") {
@@ -171,5 +171,22 @@ class SolutionSuite extends AnyFunSuite {
         )
       )
     }
+  }
+
+  test("Day 6, Puzzle 1") {
+    assert(D6.solve1(Seq("bvwbjplbgvbhsrlpgdmjqwftvncz")) == ScalarResult(5))
+    assert(D6.solve1(Seq("nppdvjthqldpwncqszvftbrmjlhg")) == ScalarResult(6))
+    assert(D6.solve1(Seq("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg")) == ScalarResult(10))
+    assert(D6.solve1(Seq("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw")) == ScalarResult(11))
+    assert(D6.solve1(fileToSeq(getFilePath("day6.txt"))) == ScalarResult(1929))
+  }
+
+  test("Day 6, Puzzle 2") {
+    assert(D6.solve2(Seq("mjqjpqmgbljsphdztnvjfqwrcgsmlb")) == ScalarResult(19))
+    assert(D6.solve2(Seq("bvwbjplbgvbhsrlpgdmjqwftvncz")) == ScalarResult(23))
+    assert(D6.solve2(Seq("nppdvjthqldpwncqszvftbrmjlhg")) == ScalarResult(23))
+    assert(D6.solve2(Seq("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg")) == ScalarResult(29))
+    assert(D6.solve2(Seq("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw")) == ScalarResult(26))
+    assert(D6.solve2(fileToSeq(getFilePath("day6.txt"))) == ScalarResult(3298))
   }
 }
