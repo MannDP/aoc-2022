@@ -12,20 +12,18 @@ object D6 extends Solution {
       seen(c) += 1
     }
 
-    var res: Option[Int] = None
-    (sequenceSize until line.length).foreach(i => {
-      if (seen.size == sequenceSize && res.isEmpty) {
-        res = Some(i)
+    val res: Option[Int] = (sequenceSize until line.length).find { i =>
+      if (seen.size == sequenceSize) {
+        true
       } else {
         val c = line(i)
         val o = line(i - sequenceSize)
         seen(o) -= 1
-        if (seen(o) == 0) {
-          seen.remove(o)
-        }
+        if (seen(o) == 0) seen.remove(o)
         seen(c) += 1
+        false
       }
-    })
+    }
 
     assert(res.isDefined)
     ScalarResult(res.get)
