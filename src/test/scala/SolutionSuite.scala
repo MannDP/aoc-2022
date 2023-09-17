@@ -143,9 +143,20 @@ class SolutionSuite extends AnyFunSuite {
     }
   }
 
-  //  test("Day 5, Puzzle 1") {
-  //
-  //  }
+  test("Day 5, Puzzle 1") {
+    for (
+      (inputFile, expected) <- Seq("d5s1.txt", "day5.txt") zip Seq(
+        "CMZ",
+        "MQSHJMWNH"
+      )
+    ) {
+      assert(
+        D5.solve1(fileToSeq(getFilePath(inputFile))) == ScalarResult(
+          expected
+        )
+      )
+    }
+  }
 
   //  test("Day 5, Puzzle 2") {
   //
