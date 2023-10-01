@@ -10,14 +10,13 @@ object D5 extends Solution {
 
     // Process the stacks
     inputMoves.tail.foreach {
-      case movePattern(countStr, fromStackStr, toStackStr) => {
+      case movePattern(countStr, fromStackStr, toStackStr) =>
         val count = countStr.toInt
         val fromStack = fromStackStr.toInt - 1
         val toStack = toStackStr.toInt - 1
         for (_ <- Range(0, count)) {
           state(toStack).prepend(state(fromStack).dequeue())
         }
-      }
       case _ => assert(false)
     }
 
@@ -45,7 +44,7 @@ object D5 extends Solution {
       .dropRight(1)
       .foreach(line => {
         for (
-          idx <- Range(1, (stackCount * 3 + stackCount - 1), 4)
+          idx <- Range(1, stackCount * 3 + stackCount - 1, 4)
             .filter(_ < line.length)
         ) {
           val item = line(idx)
@@ -64,7 +63,7 @@ object D5 extends Solution {
 
     // Process the stacks
     inputMoves.tail.foreach {
-      case movePattern(countStr, fromStackStr, toStackStr) => {
+      case movePattern(countStr, fromStackStr, toStackStr) =>
         val count = countStr.toInt
         val fromStack = fromStackStr.toInt - 1
         val toStack = toStackStr.toInt - 1
@@ -77,7 +76,6 @@ object D5 extends Solution {
         for (_ <- Range(0, count)) {
           state(toStack).prepend(stack.pop())
         }
-      }
       case _ => assert(false)
     }
 
