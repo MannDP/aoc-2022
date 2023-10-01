@@ -19,9 +19,7 @@ class SolutionSuite extends AnyFunSuite {
     lines
   }
 
-  def getFilePath(name: String): String = {
-    s"src/main/resources/inputs/$name"
-  }
+  def getFilePath(name: String): String = s"src/main/resources/inputs/$name"
 
   test("Day 1, Puzzle 1") {
     for (
