@@ -1,6 +1,6 @@
 package com.manndp.solutions
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, Queue}
+import scala.collection.mutable.Queue
 
 object D5 extends Solution {
   private val movePattern = "move (\\d+) from (\\d+) to (\\d+)".r
