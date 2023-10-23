@@ -10,7 +10,7 @@ object D7 extends Solution {
     def getSize: Int
     def populateSize(
         acc: mutable.ArrayBuffer[FileSystemElement],
-        f: FileSystemElement => Boolean
+        predicate: FileSystemElement => Boolean
     ): Unit = {}
   }
 
@@ -30,15 +30,15 @@ object D7 extends Solution {
 
     override def populateSize(
         acc: mutable.ArrayBuffer[FileSystemElement],
-        f: FileSystemElement => Boolean
+        predicate: FileSystemElement => Boolean
     ): Unit = {
       var total = 0
       for ((_, ch) <- children) {
-        ch.populateSize(acc, f)
+        ch.populateSize(acc, predicate)
         total += ch.getSize
       }
       size = total
-      if (f(this)) {
+      if (predicate(this)) {
         acc += this
       }
     }
@@ -46,7 +46,7 @@ object D7 extends Solution {
 
   private def findDirectories(
       input: Seq[String],
-      f: FileSystemElement => Boolean
+      predicate: FileSystemElement => Boolean
   ): (FileSystemElement, mutable.ArrayBuffer[FileSystemElement]) = {
     val acc = mutable.ArrayBuffer[FileSystemElement]()
     val root = Directory("/")
@@ -82,7 +82,7 @@ object D7 extends Solution {
       }
     }
 
-    root.populateSize(acc, f)
+    root.populateSize(acc, predicate)
     (root, acc)
   }
 
