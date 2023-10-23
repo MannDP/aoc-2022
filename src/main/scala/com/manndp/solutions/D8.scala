@@ -5,17 +5,17 @@ import scala.collection.mutable
 type coord = (Int, Int)
 
 object D8 extends Solution {
-  private def getTreeHeights(input: Seq[String]): Seq[Seq[Int]] = {
-    input.map(line => {
+  private def getTreeHeights(input: Seq[String]): (Seq[Seq[Int]], Int, Int) = {
+    val treeHeights = input.map(line => {
       line.map(c => c - '0')
     })
+    val rows = treeHeights.size
+    val cols = treeHeights.head.size
+    (treeHeights, rows, cols)
   }
 
   override def solve1(input: Seq[String]): Result = {
-    val treeHeights = getTreeHeights(input)
-    val rows = treeHeights.size
-    val cols = treeHeights.head.size
-
+    val (treeHeights, rows, cols) = getTreeHeights(input)
     val visible = mutable.Set[coord]()
 
     // pass 1, process visible from left and above
@@ -53,8 +53,48 @@ object D8 extends Solution {
   }
 
   override def solve2(input: Seq[String]): Result = {
-    val treeHeights = getTreeHeights(input)
+    // unfortunately, the brute force solution is the most efficient I can think of
+    // unlike problem 1, it is no longer enough to only track the maximum height in all 4 directions
+    // rather it's the first tree relative to each tree that will obstruct its view
+    val (treeHeights, rows, cols) = getTreeHeights(input)
 
-    ScalarResult(100)
+    var result = 0
+    for (rowIdx <- Range(1, rows - 1)) {
+     for (colIdx <- Range(1, cols - 1)) {
+       val height = treeHeights(rowIdx)(colIdx)
+
+       // look left
+       var leftIdx = colIdx - 1
+       while (leftIdx > 0 && treeHeights(rowIdx)(leftIdx) < height) {
+          leftIdx -= 1
+       }
+
+       // look right
+       var rightIdx = colIdx + 1
+       while (rightIdx < cols - 1 && treeHeights(rowIdx)(rightIdx) < height) {
+         rightIdx += 1
+       }
+
+       // look up
+       var topIdx = rowIdx - 1
+       while (topIdx > 0 && treeHeights(topIdx)(colIdx) < height) {
+         topIdx -= 1
+       }
+
+       // look down
+       var bottomIdx = rowIdx + 1
+       while (bottomIdx < rows - 1 && treeHeights(bottomIdx)(colIdx) < height) {
+         bottomIdx += 1
+       }
+
+       val leftDiff = colIdx - leftIdx
+       val rightDiff = rightIdx - colIdx
+       val topDiff = rowIdx - topIdx
+       val bottomDiff = bottomIdx - rowIdx
+       result = Math.max(result, leftDiff * rightDiff * topDiff * bottomDiff)
+     }
+    }
+
+    ScalarResult(result)
   }
 }
