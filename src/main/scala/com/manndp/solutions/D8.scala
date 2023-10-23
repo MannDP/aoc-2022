@@ -53,9 +53,11 @@ object D8 extends Solution {
   }
 
   override def solve2(input: Seq[String]): Result = {
-    // unfortunately, the brute force solution is the most efficient I can think of
-    // unlike problem 1, it is no longer enough to only track the maximum height in all 4 directions
-    // rather it's the first tree relative to each tree that will obstruct its view
+    // Unfortunaxtely, the brute force solution is the most efficient I can think of
+    // Consider one direction as a case, right
+    // DP memoization is only useful if the tree to the right is taller than you (reduces to 1)
+    // if not, then you must linear scan right to find a taller tree, or until you run out of trees
+    // so worst case still a linear scan
     val (treeHeights, rows, cols) = getTreeHeights(input)
 
     var result = 0
