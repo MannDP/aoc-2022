@@ -29,6 +29,4 @@ object D1 extends Solution {
     }
     ScalarResult(top3.sum)
   }
-
-  private def swap(data: (Int, Int)): (Int, Int) = data.swap
 }
