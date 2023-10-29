@@ -244,6 +244,22 @@ class SolutionSuite extends AnyFunSuite {
   }
 
   test("Day 10, Puzzle 1") {
-    assert(D10.solve1(fileToSeq(getFilePath("day10.txt"))) == ScalarResult(15220))
+    assert(
+      D10.solve1(fileToSeq(getFilePath("day10.txt"))) == ScalarResult(15220)
+    )
+  }
+
+  test("Day 10, Puzzle 2") {
+    assert(
+      D10.solve2(fileToSeq(getFilePath("day10.txt"))) == ScalarResult(
+        Set(1, 2, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 23, 25, 26,
+          27, 30, 31, 32, 33, 36, 37, 40, 43, 45, 53, 55, 60, 62, 65, 68, 70,
+          75, 78, 80, 83, 85, 86, 87, 92, 95, 96, 97, 100, 101, 105, 106, 107,
+          110, 111, 112, 115, 118, 120, 121, 122, 125, 131, 135, 140, 142, 145,
+          148, 150, 155, 156, 157, 158, 160, 162, 165, 170, 175, 180, 182, 185,
+          188, 190, 195, 198, 200, 203, 205, 210, 211, 212, 213, 215, 216, 217,
+          218, 220, 223, 225, 226, 227, 230, 235, 238)
+      )
+    )
   }
 }
