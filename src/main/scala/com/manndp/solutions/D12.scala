@@ -31,16 +31,16 @@ object D12 extends Solution {
     (startOpt.get, endOpt.get, elevationMap)
   }
 
-  private def findShortestPath(
+  private def bfs(
       start: Location,
-      end: Location,
+      targetPredicate: Location => Boolean,
+      neighborPredicate: (Character, Character) => Boolean,
       elevationMap: Seq[Seq[Character]]
   ): (Int, Boolean) = {
     val rows = elevationMap.size
     val cols = elevationMap.head.length
 
-    // implement bfs, since minimizing number of steps
-    // definition of a neighbor constrained by indices out of bounds, and relative elevations
+    // neighbors are processed on the incremented step count, so don't have to store it
     val visited = mutable.Set[Location]()
     val queue = mutable.Queue[Location]()
     visited.add(start)
@@ -48,18 +48,15 @@ object D12 extends Solution {
     var done = false
     var step = 0
     while (!done && queue.nonEmpty) {
-      // for the general case, there may not be a path from every start to an end
       val count = queue.size
       for (_ <- 0 until count if !done) {
         // process the entire frontier
         val currentLocation = queue.dequeue()
         val currentElevation =
           elevationMap(currentLocation._1)(currentLocation._2)
-        if (currentLocation == end) {
+        if (targetPredicate(currentLocation)) {
           done = true
         } else {
-          // neighbors are processed on the incremented step count
-          // that represents the number of edges traversed
           Seq((1, 0), (0, 1), (-1, 0), (0, -1))
             .map(delta =>
               (currentLocation._1 + delta._1, currentLocation._2 + delta._2)
@@ -67,7 +64,9 @@ object D12 extends Solution {
             .filter(loc =>
               loc._1 >= 0 && loc._1 < rows && loc._2 >= 0 && loc._2 < cols
             )
-            .filter(loc => currentElevation + 1 >= elevationMap(loc._1)(loc._2))
+            .filter(loc =>
+              neighborPredicate(currentElevation, elevationMap(loc._1)(loc._2))
+            )
             .filter(loc => !visited.contains(loc))
             .foreach(loc => {
               visited.add(loc)
@@ -84,37 +83,17 @@ object D12 extends Solution {
 
   override def solve1(input: Seq[String]): Result = {
     val (start, end, map) = parseInput(input)
-    val (sol, _) = findShortestPath(start, end, map)
+    val (sol, found) =
+      bfs(start, loc => loc == end, (ch, nh) => nh <= ch + 1, map)
+    assert(found)
     ScalarResult(sol)
   }
 
   override def solve2(input: Seq[String]): Result = {
-    // this BFS solution is O(VE(V+E)), ie. O(n^3)
-    // matches the runtime of Floyd-Warshall (which yields all pairs shortest path)
-    // indeed, a more efficient solution to the algorithm exists, by reformulating the end position as the starting point
-    // and then traversing backwards to find any 'a'
-    // Dijkstra's implements this in O(n^2), and is a formalization able to handle the first part of the problem
-    // TODO: manndp implement O(n^2)
-
-    var solution: Option[Int] = None
-    val startLocations: Seq[Location] = input.zipWithIndex.flatMap {
-      case (row, rowIndex) =>
-        row.zipWithIndex.collect { case ('a', colIndex) =>
-          (rowIndex, colIndex)
-        }
-    }
+    // BFS backwards starting from the end position
     val (_, end, map) = parseInput(input)
-    for (location <- startLocations) {
-      val (steps, valid) = findShortestPath(location, end, map)
-      if (valid) {
-        solution match {
-          case Some(value) if steps < value => solution = Some(steps)
-          case None                         => solution = Some(steps)
-          case _                            => ()
-        }
-      }
-    }
-
-    ScalarResult(solution.get)
+    val (sol, found) =
+      bfs(end, loc => map(loc._1)(loc._2) == 'a', (ch, nh) => nh >= ch - 1, map)
+    ScalarResult(sol)
   }
 }
