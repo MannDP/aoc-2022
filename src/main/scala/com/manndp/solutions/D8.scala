@@ -2,9 +2,9 @@ package com.manndp.solutions
 
 import scala.collection.mutable
 
-type coord = (Int, Int)
-
 object D8 extends Solution {
+  private type coordinate = (Int, Int)
+
   private def getTreeHeights(input: Seq[String]): (Seq[Seq[Int]], Int, Int) = {
     val treeHeights = input.map(line => {
       line.map(c => c - '0')
@@ -16,7 +16,7 @@ object D8 extends Solution {
 
   override def solve1(input: Seq[String]): Result = {
     val (treeHeights, rows, cols) = getTreeHeights(input)
-    val visible = mutable.Set[coord]()
+    val visible = mutable.Set[coordinate]()
 
     // pass 1, process visible from left and above
     val topMaxs = mutable.ArrayBuffer[Int]()
@@ -29,7 +29,7 @@ object D8 extends Solution {
           visible.add((rowIdx, colIdx))
         }
         leftMax = Math.max(leftMax, height)
-         topMaxs(colIdx) = Math.max(topMaxs(colIdx), height)
+        topMaxs(colIdx) = Math.max(topMaxs(colIdx), height)
       }
     }
 
@@ -62,39 +62,41 @@ object D8 extends Solution {
 
     var result = 0
     for (rowIdx <- Range(1, rows - 1)) {
-     for (colIdx <- Range(1, cols - 1)) {
-       val height = treeHeights(rowIdx)(colIdx)
+      for (colIdx <- Range(1, cols - 1)) {
+        val height = treeHeights(rowIdx)(colIdx)
 
-       // look left
-       var leftIdx = colIdx - 1
-       while (leftIdx > 0 && treeHeights(rowIdx)(leftIdx) < height) {
+        // look left
+        var leftIdx = colIdx - 1
+        while (leftIdx > 0 && treeHeights(rowIdx)(leftIdx) < height) {
           leftIdx -= 1
-       }
+        }
 
-       // look right
-       var rightIdx = colIdx + 1
-       while (rightIdx < cols - 1 && treeHeights(rowIdx)(rightIdx) < height) {
-         rightIdx += 1
-       }
+        // look right
+        var rightIdx = colIdx + 1
+        while (rightIdx < cols - 1 && treeHeights(rowIdx)(rightIdx) < height) {
+          rightIdx += 1
+        }
 
-       // look up
-       var topIdx = rowIdx - 1
-       while (topIdx > 0 && treeHeights(topIdx)(colIdx) < height) {
-         topIdx -= 1
-       }
+        // look up
+        var topIdx = rowIdx - 1
+        while (topIdx > 0 && treeHeights(topIdx)(colIdx) < height) {
+          topIdx -= 1
+        }
 
-       // look down
-       var bottomIdx = rowIdx + 1
-       while (bottomIdx < rows - 1 && treeHeights(bottomIdx)(colIdx) < height) {
-         bottomIdx += 1
-       }
+        // look down
+        var bottomIdx = rowIdx + 1
+        while (
+          bottomIdx < rows - 1 && treeHeights(bottomIdx)(colIdx) < height
+        ) {
+          bottomIdx += 1
+        }
 
-       val leftDiff = colIdx - leftIdx
-       val rightDiff = rightIdx - colIdx
-       val topDiff = rowIdx - topIdx
-       val bottomDiff = bottomIdx - rowIdx
-       result = Math.max(result, leftDiff * rightDiff * topDiff * bottomDiff)
-     }
+        val leftDiff = colIdx - leftIdx
+        val rightDiff = rightIdx - colIdx
+        val topDiff = rowIdx - topIdx
+        val bottomDiff = bottomIdx - rowIdx
+        result = Math.max(result, leftDiff * rightDiff * topDiff * bottomDiff)
+      }
     }
 
     ScalarResult(result)

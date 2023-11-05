@@ -2,6 +2,7 @@
 .metals/
 project/
 target/
+.vscode/
 
 # python
 env
@@ -9,3 +10,6 @@ venv
 
 # creds
 cookie.sh
+
+# used as a Scala sandbox
+src/main/scala/com/manndp/solutions/Main.scala
