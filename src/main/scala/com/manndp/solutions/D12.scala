@@ -64,10 +64,10 @@ object D12 extends Solution {
             .filter(loc =>
               loc._1 >= 0 && loc._1 < rows && loc._2 >= 0 && loc._2 < cols
             )
+            .filter(loc => !visited.contains(loc))
             .filter(loc =>
               neighborPredicate(currentElevation, elevationMap(loc._1)(loc._2))
             )
-            .filter(loc => !visited.contains(loc))
             .foreach(loc => {
               visited.add(loc)
               queue.enqueue(loc)
