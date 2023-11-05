@@ -275,4 +275,9 @@ class SolutionSuite extends AnyFunSuite {
     assert(D12.solve1(fileToSeq(getFilePath("d12s1.txt"))) == ScalarResult(31))
     assert(D12.solve1(fileToSeq(getFilePath("day12.txt"))) == ScalarResult(534))
   }
+
+  test("Day 12, Puzzle 2") {
+    assert(D12.solve2(fileToSeq(getFilePath("d12s1.txt"))) == ScalarResult(29))
+    assert(D12.solve2(fileToSeq(getFilePath("day12.txt"))) == ScalarResult(525))
+  }
 }
